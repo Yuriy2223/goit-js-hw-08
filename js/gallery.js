@@ -65,3 +65,38 @@ const images = [
 ];
 
 const gallery = document.querySelector(".gallery");
+
+function createGalleryItem(image) {
+  const { preview, original, description } = image;
+
+  return `<li class="gallery-item">
+    <a class="gallery-link" href="${original}">
+      <img
+        class="gallery-image"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
+        width="500" 
+      />
+    </a>
+  </li>`;
+}
+
+function initGallery(images) {
+  const galleryItems = images.map(createGalleryItem).join("");
+  gallery.insertAdjacentHTML("beforeend", galleryItems);
+  addEventListeners();
+}
+
+function addEventListeners() {
+  gallery.addEventListener("click", (event) => {
+    if (event.target.nodeName !== "IMG") return;
+    event.preventDefault();
+    const instance = basicLightbox.create(`
+        <img src="${event.target.dataset.source}">`);
+
+    instance.show();
+  });
+}
+
+initGallery(images);
