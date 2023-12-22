@@ -96,6 +96,15 @@ function addEventListeners() {
         <img src="${event.target.dataset.source}">`);
 
     instance.show();
+
+    const escapeKeyListener = (event) => {
+      if (event.key === "Escape" && instance.visible()) {
+        instance.close();
+        document.removeEventListener("keydown", escapeKeyListener);
+      }
+    };
+
+    document.addEventListener("keydown", escapeKeyListener);
   });
 }
 
